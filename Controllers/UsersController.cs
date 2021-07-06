@@ -43,6 +43,21 @@ namespace BookStoreAppUpdated.Controllers
             return user;
         }
 
+        [HttpGet("GetUser")]
+        public async Task<ActionResult<User>> GetUser()
+        {
+            string emailAddress = HttpContext.User.Identity.Name;
+
+            var user = await _context.Users.Where(user => user.EmailAddress == emailAddress).FirstOrDefaultAsync();
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return user;
+        }
+
         // PUT: api/Users/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
